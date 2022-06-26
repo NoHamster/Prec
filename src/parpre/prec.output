@@ -1,0 +1,136 @@
+Terminals unused in grammar
+
+    PRA
+    IFDEF
+    IFNDEF
+    IF
+    ENDIF
+    ELIF
+    ELSE
+    OTH
+    INC
+
+
+Grammar
+
+    0 $accept: prg $end
+
+    1 prg: stmts
+
+    2 stmts: %empty
+    3      | stmt stmts
+
+    4 stmt: COMMENT
+    5     | DEF
+    6     | CONTENT
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    error (256)
+    DEF (258) 5
+    PRA (259)
+    IFDEF (260)
+    IFNDEF (261)
+    IF (262)
+    ENDIF (263)
+    ELIF (264)
+    ELSE (265)
+    OTH (266)
+    INC (267)
+    COMMENT <str> (268) 4
+    CONTENT <str> (269) 6
+
+
+Nonterminals, with rules where they appear
+
+    $accept (15)
+        on left: 0
+    prg (16)
+        on left: 1
+        on right: 0
+    stmts (17)
+        on left: 2 3
+        on right: 1 3
+    stmt (18)
+        on left: 4 5 6
+        on right: 3
+
+
+State 0
+
+    0 $accept: . prg $end
+
+    DEF      shift, and go to state 1
+    COMMENT  shift, and go to state 2
+    CONTENT  shift, and go to state 3
+
+    $default  reduce using rule 2 (stmts)
+
+    prg    go to state 4
+    stmts  go to state 5
+    stmt   go to state 6
+
+
+State 1
+
+    5 stmt: DEF .
+
+    $default  reduce using rule 5 (stmt)
+
+
+State 2
+
+    4 stmt: COMMENT .
+
+    $default  reduce using rule 4 (stmt)
+
+
+State 3
+
+    6 stmt: CONTENT .
+
+    $default  reduce using rule 6 (stmt)
+
+
+State 4
+
+    0 $accept: prg . $end
+
+    $end  shift, and go to state 7
+
+
+State 5
+
+    1 prg: stmts .
+
+    $default  reduce using rule 1 (prg)
+
+
+State 6
+
+    3 stmts: stmt . stmts
+
+    DEF      shift, and go to state 1
+    COMMENT  shift, and go to state 2
+    CONTENT  shift, and go to state 3
+
+    $default  reduce using rule 2 (stmts)
+
+    stmts  go to state 8
+    stmt   go to state 6
+
+
+State 7
+
+    0 $accept: prg $end .
+
+    $default  accept
+
+
+State 8
+
+    3 stmts: stmt stmts .
+
+    $default  reduce using rule 3 (stmts)
